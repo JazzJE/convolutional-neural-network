@@ -9,8 +9,8 @@ class Tensor
 private:
 	// A matrix should be immutable in dimensions once initialized
 	// A new matrix should be made when needing to mutate dimensions
-	const size_t number_of_rows;
-	const size_t number_of_columns;
+	size_t number_of_rows;
+	size_t number_of_columns;
 	std::unique_ptr<T[]> data;
 
 public:
@@ -29,9 +29,16 @@ public:
 	Tensor<T> operator-(const Tensor<T>& other) const;
 	bool operator==(const Tensor<T>& other) const;
 	Tensor<T> transpose() const;
+	Tensor<T> flatten() const;
 
 	template<typename U>
 	friend std::ostream& operator<<(std::ostream& os, const Tensor<U>& mat);
+
+	// Move and copy operations
+	Tensor<T>(const Tensor<T>& other);
+	Tensor<T>& operator=(const Tensor<T>& other);
+	Tensor<T>(Tensor<T>&& other) noexcept;
+	Tensor<T>& operator=(Tensor<T>&& other) noexcept;
 
 	// Setters and getters
 	size_t get_number_of_rows() const { return number_of_rows; }

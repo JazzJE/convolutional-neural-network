@@ -105,6 +105,16 @@ Tensor<T> Tensor<T>::transpose() const
 	return transpose;
 }
 
+template<typename T> 
+Tensor<T> Tensor<T>::flatten() const
+{
+	Tensor<T> flattened_tensor(number_of_rows * number_of_columns, 1);
+	for (size_t i = 0; i < number_of_rows * number_of_columns; ++i)
+		flattened_tensor.data[i] = data[i];
+
+	return flattened_tensor;
+}
+
 template<typename U>
 std::ostream& operator<<(std::ostream& os, const Tensor<U>& mat)
 {
@@ -121,4 +131,58 @@ std::ostream& operator<<(std::ostream& os, const Tensor<U>& mat)
 	}
 
 	return os;
+}
+
+template <typename T>
+Tensor<T>::Tensor(const Tensor<T>& other) : number_of_rows(other.number_of_rows), number_of_columns(other.number_of_columns),
+data(std::make_unique<T[]>(number_of_rows * number_of_columns))
+{
+	for (size_t i = 0; i < number_of_rows * number_of_columns; ++i)
+		data[i] = other.data[i];
+}
+
+template <typename T>
+Tensor<T>& Tensor<T>::operator=(const Tensor<T>& other)
+{
+	if (this != &other)
+	{
+		// Release the memory currently stored
+		data.reset();
+
+		number_of_rows = other.number_of_rows;
+		number_of_columns = other.number_of_columns;
+		data = std::make_unique<T[]>(number_of_rows * number_of_columns);
+
+		for (size_t i = 0; i < number_of_rows * number_of_columns; ++i)
+			data[i] = other.data[i];
+	}
+
+	return *this;
+}
+
+template <typename T>
+Tensor<T>::Tensor(Tensor<T>&& other) noexcept : number_of_rows(other.number_of_rows), number_of_columns(other.number_of_columns), 
+data(std::move(other.data))
+{ 
+	other.number_of_rows = 0;
+	other.number_of_columns = 0;
+}
+
+template <typename T>
+Tensor<T>& Tensor<T>::operator=(Tensor<T>&& other) noexcept
+{
+	if (this != &other)
+	{
+		// Release the memory currently stored
+		data.reset();
+
+		number_of_rows = other.number_of_rows;
+		number_of_columns = other.number_of_columns;
+		data = std::move(other.data);
+
+		other.number_of_rows = 0;
+		other.number_of_columns = 0;
+	}
+
+	return *this;
 }

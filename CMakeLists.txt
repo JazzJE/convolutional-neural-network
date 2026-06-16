@@ -33,7 +33,7 @@ add_executable(cnn
 )
 
 add_executable(tests
-    tests/matrix_tests.cpp
+    tests/tensor_tests.cpp
     tests/main.cpp)
 
 target_include_directories(cnn PRIVATE
