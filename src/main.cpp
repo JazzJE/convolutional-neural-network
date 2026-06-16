@@ -1,11 +1,21 @@
 #include <iostream>
 
-#include "Matrix.h"
-
-void run_matrix_tests();
+#include "raylib.h"
+#include "Tensor.h"
 
 int main()
 {
-    run_matrix_tests();
-    std::cout << "All tests passed!\n";
+    InitWindow(800, 600, "CNN");
+
+    while (!WindowShouldClose())
+    {
+        BeginDrawing();
+
+        ClearBackground(RAYWHITE);
+        DrawText("Raylib works!", 250, 280, 30, BLACK);
+
+        EndDrawing();
+    }
+
+    CloseWindow();
 }

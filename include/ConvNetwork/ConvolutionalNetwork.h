@@ -1,10 +1,10 @@
 #pragma once
-#include "Matrix.h"
+#include "Tensor.h"
+#include "ConfigTypes.h"
 
 class ConvolutionalNetwork
 {
 private:
-	Matrix<double> kernel;
 
 public:
 

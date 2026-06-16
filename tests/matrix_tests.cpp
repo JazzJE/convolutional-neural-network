@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Matrix.h"
+#include "Tensor.h"
 
 void print_separator(const std::string& name)
 {
@@ -15,7 +15,7 @@ void test_constructor()
         4, 5, 6
     };
 
-    Matrix<double> m(arr, 2, 3);
+    Tensor<double> m(arr, 2, 3);
 
     std::cout << "Matrix m:\n";
     std::cout << m << std::endl << m[1][2];
@@ -28,10 +28,10 @@ void test_addition()
     double a[] = { 1, 2, 3, 4 };
     double b[] = { 5, 6, 7, 8 };
 
-    Matrix<double> A(a, 2, 2);
-    Matrix<double> B(b, 2, 2);
+    Tensor<double> A(a, 2, 2);
+    Tensor<double> B(b, 2, 2);
 
-    Matrix<double> C = A + B;
+    Tensor<double> C = A + B;
 
     std::cout << "A:\n" << A;
     std::cout << "B:\n" << B;
@@ -44,15 +44,15 @@ void test_scalar()
 
     double a[] = { 1, 2, 3, 4 };
 
-    Matrix<double> A(a, 2, 2);
+    Tensor<double> A(a, 2, 2);
 
     std::cout << "A:\n" << A;
 
-    Matrix<double> B = A * 3.0;
+    Tensor<double> B = A * 3.0;
 
     std::cout << "A * 3:\n" << B;
 
-    Matrix<double> C = 3.0 * A;
+    Tensor<double> C = 3.0 * A;
 
     std::cout << "3 * A:\n" << C;
 }
@@ -71,10 +71,10 @@ void test_matrix_multiplication()
         1, 2
     };
 
-    Matrix<double> A(a, 2, 2);
-    Matrix<double> B(b, 2, 2);
+    Tensor<double> A(a, 2, 2);
+    Tensor<double> B(b, 2, 2);
 
-    Matrix<double> C = A * B;
+    Tensor<double> C = A * B;
 
     std::cout << "A:\n" << A;
     std::cout << "B:\n" << B;
@@ -88,8 +88,8 @@ void test_negation_subtraction()
     double a[] = { 1, -2, 3, -4 };
     double b[] = { 5, 6, 7, 8 };
 
-    Matrix<double> A(a, 2, 2);
-    Matrix<double> B(b, 2, 2);
+    Tensor<double> A(a, 2, 2);
+    Tensor<double> B(b, 2, 2);
 
     std::cout << "A:\n" << A;
     std::cout << "-A:\n" << -A;
@@ -107,7 +107,7 @@ void test_transpose()
         4, 5, 6
     };
 
-    Matrix<double> A(a, 2, 3);
+    Tensor<double> A(a, 2, 3);
 
     std::cout << "A:\n" << A;
     std::cout << "A^T:\n" << A.transpose();
@@ -121,9 +121,9 @@ void test_equality()
     double b[] = { 1, 2, 3, 4 };
     double c[] = { 1, 2, 3, 5 };
 
-    Matrix<double> A(a, 2, 2);
-    Matrix<double> B(b, 2, 2);
-    Matrix<double> C(c, 2, 2);
+    Tensor<double> A(a, 2, 2);
+    Tensor<double> B(b, 2, 2);
+    Tensor<double> C(c, 2, 2);
 
     std::cout << "A == B: " << (A == B) << "\n";
     std::cout << "A == C: " << (A == C) << "\n";

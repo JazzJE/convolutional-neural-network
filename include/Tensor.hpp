@@ -1,14 +1,14 @@
 #include <iomanip>
 #include <string>
 
-#include "Matrix.h"
+#include "Tensor.h"
 
 template<typename T>
-Matrix<T>::Matrix(size_t rows, size_t columns) : number_of_rows(rows), number_of_columns(columns), 
+Tensor<T>::Tensor(size_t rows, size_t columns) : number_of_rows(rows), number_of_columns(columns), 
 	data(std::make_unique<T[]>(number_of_rows * number_of_columns)) { }
 
 template<typename T>
-Matrix<T>::Matrix(T arr[], size_t rows, size_t columns) : number_of_rows(rows), number_of_columns(columns),
+Tensor<T>::Tensor(T arr[], size_t rows, size_t columns) : number_of_rows(rows), number_of_columns(columns),
 	data(std::make_unique<T[]>(number_of_rows * number_of_columns))
 {
 	for (size_t array_index = 0; array_index < number_of_rows * number_of_columns; ++array_index)
@@ -16,18 +16,18 @@ Matrix<T>::Matrix(T arr[], size_t rows, size_t columns) : number_of_rows(rows), 
 }
 
 template<typename T>
-T* Matrix<T>::operator[](size_t row_index) const
+T* Tensor<T>::operator[](size_t row_index) const
 { return (data.get() + row_index * number_of_columns); }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator*(const Matrix<T>& other) const
+Tensor<T> Tensor<T>::operator*(const Tensor<T>& other) const
 {
 	// Number of columns should equal to the number of rows for matrix multiplication
 	if (number_of_columns != other.number_of_rows)
 		throw std::logic_error("The number of columns, " + std::to_string(number_of_columns) 
 			+ ", should equal to the other number of rows, " + std::to_string(other.number_of_rows));
 
-	Matrix<T> product(number_of_rows, other.number_of_columns);
+	Tensor<T> product(number_of_rows, other.number_of_columns);
 
 	for (size_t row_index = 0; row_index < number_of_rows; ++row_index)
 		for (size_t column_index = 0; column_index < other.number_of_columns; ++column_index)
@@ -40,9 +40,9 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& other) const
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator*(double scalar) const
+Tensor<T> Tensor<T>::operator*(double scalar) const
 {
-	Matrix<T> product(number_of_rows, number_of_columns);
+	Tensor<T> product(number_of_rows, number_of_columns);
 	
 	for (size_t i = 0; i < number_of_rows * number_of_columns; ++i)
 		product.data[i] = data[i] * scalar;
@@ -51,11 +51,11 @@ Matrix<T> Matrix<T>::operator*(double scalar) const
 }
 
 template<typename U>
-Matrix<U> operator*(double scalar, const Matrix<U>& mat)
+Tensor<U> operator*(double scalar, const Tensor<U>& mat)
 { return mat * scalar; }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator+(const Matrix<T>& other) const
+Tensor<T> Tensor<T>::operator+(const Tensor<T>& other) const
 {
 	if (number_of_rows != other.number_of_rows)
 		throw std::logic_error("The number of rows, " + std::to_string(number_of_rows) +
@@ -64,7 +64,7 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T>& other) const
 		throw std::logic_error("The number of columns, " + std::to_string(number_of_columns) 
 			+ ", are not equal to the other number of columns, " + std::to_string(other.number_of_columns));
 
-	Matrix sum(number_of_rows, number_of_columns);
+	Tensor sum(number_of_rows, number_of_columns);
 
 	for (size_t i = 0; i < number_of_rows * number_of_columns; ++i)
 		sum.data[i] = data[i] + other.data[i];
@@ -73,15 +73,15 @@ Matrix<T> Matrix<T>::operator+(const Matrix<T>& other) const
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator-() const
+Tensor<T> Tensor<T>::operator-() const
 { return (*this) * -1; }
 
 template<typename T>
-Matrix<T> Matrix<T>::operator-(const Matrix<T>& other) const
+Tensor<T> Tensor<T>::operator-(const Tensor<T>& other) const
 { return (*this) + -other; }
 
 template<typename T>
-bool Matrix<T>::operator==(const Matrix<T>& other) const
+bool Tensor<T>::operator==(const Tensor<T>& other) const
 {
 	if (number_of_rows != other.number_of_rows || number_of_columns != other.number_of_columns)
 		return false;
@@ -94,9 +94,9 @@ bool Matrix<T>::operator==(const Matrix<T>& other) const
 }
 
 template<typename T>
-Matrix<T> Matrix<T>::transpose() const
+Tensor<T> Tensor<T>::transpose() const
 {
-	Matrix<T> transpose(number_of_columns, number_of_rows);
+	Tensor<T> transpose(number_of_columns, number_of_rows);
 
 	for (size_t row_index = 0; row_index < number_of_rows; ++row_index)
 		for (size_t column_index = 0; column_index < number_of_columns; ++column_index)
@@ -106,7 +106,7 @@ Matrix<T> Matrix<T>::transpose() const
 }
 
 template<typename U>
-std::ostream& operator<<(std::ostream& os, const Matrix<U>& mat)
+std::ostream& operator<<(std::ostream& os, const Tensor<U>& mat)
 {
 	size_t number_of_rows = mat.get_number_of_rows(); 
 	size_t number_of_columns = mat.get_number_of_columns();
