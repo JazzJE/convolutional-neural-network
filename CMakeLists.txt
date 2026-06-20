@@ -26,7 +26,7 @@ find_package(OpenMP REQUIRED)
 set(CNN_SOURCES
     src/main.cpp
     src/ConvNetwork/ConvolutionalNetwork.cpp
-)
+    src/ImageProcessor.cpp)
 
 add_executable(cnn
     ${CNN_SOURCES}
