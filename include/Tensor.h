@@ -17,6 +17,7 @@ public:
 
 	Tensor<T>(size_t rows, size_t columns);
 	Tensor<T>(T arr[], size_t row, size_t columns);
+	Tensor<T>();
 
 	// Basic operations
 	T* operator[](size_t row_index) const;

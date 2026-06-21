@@ -16,6 +16,10 @@ Tensor<T>::Tensor(T arr[], size_t rows, size_t columns) : number_of_rows(rows), 
 }
 
 template<typename T>
+Tensor<T>::Tensor() : rows(0), columns(0), data(nullptr)
+{ }
+
+template<typename T>
 T* Tensor<T>::operator[](size_t row_index) const
 { return (data.get() + row_index * number_of_columns); }
 
